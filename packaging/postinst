@@ -1,0 +1,35 @@
+#!/bin/sh
+# Create the log directory, load the USB export rule, then enable and (re)start
+# the payload.
+set -e
+
+[ "$1" = configure ] || exit 0
+
+unit=/lib/systemd/system/sensor-payload.service
+install -d -m 755 /var/log/argus
+
+# Conffiles edited on the target are kept; dpkg puts the new version next to them.
+find /etc/argus -name '*.dpkg-dist' 2>/dev/null | while read -r packaged; do
+    echo "sensor-payload: warning: kept your edited ${packaged%.dpkg-dist}; the packaged version is $packaged" >&2
+done
+
+working_dir=$(sed -n 's/^WorkingDirectory=//p' "$unit")
+if [ -n "$working_dir" ] && [ ! -d "$working_dir" ]; then
+    echo "sensor-payload: warning: service working directory $working_dir does not exist" >&2
+fi
+
+[ -d /run/systemd/system ] || exit 0
+systemctl daemon-reload
+# A stick that is already inserted is exported on its next insertion.
+udevadm control --reload-rules || true
+systemctl enable sensor-payload.service
+fragment=$(systemctl show -p FragmentPath --value sensor-payload.service)
+case "$fragment" in
+    /lib/systemd/system/*|/usr/lib/systemd/system/*) ;;
+    *) echo "sensor-payload: warning: $fragment overrides the packaged unit $unit" >&2 ;;
+esac
+echo 'sensor-payload: restarting sensor-payload.service'
+if ! systemctl restart sensor-payload.service; then
+    journalctl -u sensor-payload.service -n 60 --no-pager || true
+    echo 'sensor-payload: warning: the package is installed, but the service failed to start' >&2
+fi

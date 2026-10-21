@@ -1,0 +1,16 @@
+Package: sensor-payload
+Version: @VERSION@
+Architecture: arm64
+Maintainer: @MAINTAINER@
+Installed-Size: @INSTALLED_SIZE@
+Depends: libc6, systemd, udev, kmod, rsync, mount, util-linux, coreutils
+Conflicts: argus-usb-sync
+Replaces: argus-usb-sync
+Recommends: python3
+Section: misc
+Priority: optional
+Description: ARGUS Sensor Payload (PSDK), widget config and USB log export
+ DJI Payload SDK application that reads the ARGUS sensor serial stream, logs
+ it to /var/log/argus and shows live values in a DJI Pilot widget.
+ Inserting a USB stick copies /var/log/argus to it (argus-usb-sync).
+ Configuration is in /etc/argus.

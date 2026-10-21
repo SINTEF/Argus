@@ -1,0 +1,25 @@
+# Install layout for the sensor payload, shared by scripts/build-dpkg.sh and
+# scripts/install_target.sh. One file per line:
+#   mode  source (relative to the repository)  destination  [flags]
+# @BINARY@ is the --binary argument (default build-rpi4-aarch64/SensorPayload).
+# Flags: conf = configuration (a conffile in the package; relocated by
+#        install_target.sh --data-dir), deb = package only (skipped by
+#        install_target.sh).
+# Keep scripts/uninstall_target.sh in step; build-dpkg.sh checks it.
+0755  @BINARY@                              /usr/bin/SensorPayload
+0755  scripts/run_sensor_payload.sh         /usr/bin/run_sensor_payload.sh
+0755  scripts/sensor_viewer.py              /usr/bin/sensor_viewer.py
+0755  scripts/psdk-vcom.sh                  /usr/sbin/psdk-vcom.sh
+0644  config/sensor-fields.conf             /etc/argus/sensor-fields.conf                conf
+0644  config/sensor-fields-strato58.conf    /etc/argus/sensor-fields-strato58.conf       conf
+0644  src/en_big_screen/widget_config.json  /etc/argus/en_big_screen/widget_config.json  conf
+0644  scripts/sensor-payload.service        /lib/systemd/system/sensor-payload.service
+0755  usb-sync/argus-usb-sync.sh            /usr/sbin/argus-usb-sync
+0644  usb-sync/argus-usb-sync@.service      /lib/systemd/system/argus-usb-sync@.service
+0644  usb-sync/99-argus-usb-sync.rules      /etc/udev/rules.d/99-argus-usb-sync.rules
+0755  usb-sync/argus-update.sh              /usr/sbin/argus-update
+0644  usb-sync/argus-update.service         /lib/systemd/system/argus-update.service
+0644  README.md                             /usr/share/doc/sensor-payload/README.md          deb
+0644  INSTALL_TARGET.md                     /usr/share/doc/sensor-payload/INSTALL_TARGET.md  deb
+0644  WIDGET.md                             /usr/share/doc/sensor-payload/WIDGET.md          deb
+0644  usb-sync/README.md                    /usr/share/doc/sensor-payload/usb-sync.md        deb

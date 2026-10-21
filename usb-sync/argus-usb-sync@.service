@@ -1,0 +1,10 @@
+[Unit]
+Description=Copy Argus logs to USB storage %I
+BindsTo=dev-%i.device
+After=dev-%i.device
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/argus-usb-sync /dev/%I
+TimeoutStartSec=infinity
+UMask=0077

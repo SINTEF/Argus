@@ -1,0 +1,19 @@
+#!/bin/sh
+# Before removal (not upgrade): block new USB exports, stop running ones, then
+# stop the payload. An export's cleanup restarts the payload, hence this order.
+set -e
+
+rule=/etc/udev/rules.d/99-argus-usb-sync.rules
+
+[ "$1" = remove ] || exit 0
+if [ -d /run/systemd/system ]; then
+    # dpkg deletes the rule after this script; take it out of effect now.
+    # dpkg tolerates the file being gone, and postrm deletes the renamed copy.
+    if [ -e "$rule" ]; then
+        mv -f "$rule" "$rule.dpkg-removing"
+        udevadm control --reload-rules || true
+    fi
+    systemctl stop 'argus-usb-sync@*.service' || true
+    systemctl stop sensor-payload.service || true
+    systemctl disable sensor-payload.service || true
+fi

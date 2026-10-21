@@ -1,0 +1,34 @@
+{
+  "version": {
+    "major": 1,
+    "minor": 0
+  },
+  "main_interface": {
+    "floating_window": {
+      "is_enable": true
+    },
+    "widget_list": []
+  },
+  "config_interface": {
+    "widget_list": [
+      {
+        "widget_index": 0,
+        "widget_type": "int_input_box",
+        "widget_name": "CH4 ppm x1000",
+        "int_input_box_hint": "ppm x1000"
+      },
+      {
+        "widget_index": 1,
+        "widget_type": "int_input_box",
+        "widget_name": "Wind direction (deg)",
+        "int_input_box_hint": "degrees"
+      },
+      {
+        "widget_index": 2,
+        "widget_type": "int_input_box",
+        "widget_name": "Temperature",
+        "int_input_box_hint": "degC x100"
+      }
+    ]
+  }
+}

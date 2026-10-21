@@ -1,0 +1,2 @@
+# Match USB disks and partitions without relying on filesystem identification.
+ACTION=="add", SUBSYSTEM=="block", SUBSYSTEMS=="usb", TAG+="systemd", ENV{SYSTEMD_WANTS}+="argus-usb-sync@%k.service"

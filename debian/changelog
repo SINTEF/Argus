@@ -1,0 +1,41 @@
+sensor-payload (0.1.5) unstable; urgency=low
+
+  * Branch: main
+  * Commit: 2d1823c9a6ad0711c800a418d20330bc0ab0fa3f
+
+ -- Henrik Austad <henrik@austad.us>  Tue, 06 Oct 2026 15:26:51 +0200
+
+sensor-payload (0.1.4) unstable; urgency=low
+
+  * Branch: main
+  * Commit: 6d014eadd9db0cc982004446717d319c50012138
+
+ -- Henrik Austad <henrik@austad.us>  Tue, 06 Oct 2026 15:19:48 +0200
+
+sensor-payload (0.1.3) unstable; urgency=low
+
+  * Branch: main
+  * Commit: 89b5a7a11d6812a73ecadc3bdcc24e62aa1da9ba
+
+ -- Henrik Austad <henrik@austad.us>  Tue, 06 Oct 2026 14:48:09 +0200
+
+sensor-payload (0.1.2) unstable; urgency=low
+
+  * Branch: main
+  * Commit: 5dfbce2efeb93f82f319454c270b7052b0995b71
+
+ -- Henrik Austad <henrik@austad.us>  Tue, 06 Oct 2026 14:35:34 +0200
+
+sensor-payload (0.1.1) unstable; urgency=low
+
+  * Branch: main
+  * Commit: a89c2e2514aa845e7a290f56434eb4b68693d2a3
+
+ -- Henrik Austad <henrik@austad.us>  Thu, 01 Oct 2026 15:19:46 +0200
+
+sensor-payload (0.1.0) unstable; urgency=low
+
+  * Branch: main
+  * Commit: cb0ef95d9af64e6758998f8941ff8632dbbc2b7d
+
+ -- Henrik Austad <henrik@austad.us>  Thu, 01 Oct 2026 14:08:39 +0200

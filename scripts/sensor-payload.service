@@ -1,0 +1,20 @@
+[Unit]
+Description=ARGUS Sensor Payload (PSDK)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/sbin/psdk-vcom.sh
+ExecStart=/usr/bin/run_sensor_payload.sh
+Restart=on-failure
+RestartSec=5
+User=root
+WorkingDirectory=/home/pi
+Environment=ARGUS_DATA_DIR=/etc/argus
+# To use another field mapping, add a drop-in (sudo systemctl edit sensor-payload):
+#   [Service]
+#   Environment=ARGUS_SENSOR_FIELDS=/etc/argus/sensor-fields-strato58.conf
+
+[Install]
+WantedBy=multi-user.target

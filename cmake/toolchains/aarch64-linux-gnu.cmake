@@ -1,0 +1,16 @@
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
+
+if (NOT DEFINED CMAKE_C_COMPILER OR CMAKE_C_COMPILER STREQUAL "")
+    find_program(AARCH64_LINUX_GNU_GCC aarch64-linux-gnu-gcc)
+    if (NOT AARCH64_LINUX_GNU_GCC)
+        message(FATAL_ERROR "aarch64-linux-gnu-gcc was not found in PATH. Install gcc-aarch64-linux-gnu or pass -DCMAKE_C_COMPILER=/path/to/aarch64-linux-gnu-gcc.")
+    endif()
+
+    set(CMAKE_C_COMPILER "${AARCH64_LINUX_GNU_GCC}" CACHE FILEPATH "C compiler" FORCE)
+endif()
+
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)

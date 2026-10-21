@@ -1,0 +1,12 @@
+# Files that install_target.sh and usb-sync/install.sh installed before the
+# shared layout in files.list.
+# install_target.sh removes them, uninstall_target.sh removes them, and the
+# package refuses to install while they exist. Keep scripts/uninstall_target.sh
+# in step; build-dpkg.sh checks it.
+/usr/local/bin/SensorPayload
+/usr/local/bin/run_sensor_payload.sh
+/usr/local/bin/sensor_viewer.py
+/usr/local/sbin/psdk-vcom.sh
+/etc/systemd/system/sensor-payload.service
+/usr/local/sbin/argus-usb-sync
+/etc/systemd/system/argus-usb-sync@.service

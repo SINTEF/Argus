@@ -1,0 +1,17 @@
+#!/bin/sh
+# Forget the removed units and udev rule. Sensor logs in /var/log/argus are
+# never deleted.
+set -e
+
+case "$1" in
+    remove|purge)
+        rm -f /etc/udev/rules.d/99-argus-usb-sync.rules.dpkg-removing
+        if [ "$1" = purge ]; then
+            rm -rf /var/cache/argus-update
+        fi
+        if [ -d /run/systemd/system ]; then
+            systemctl daemon-reload || true
+            udevadm control --reload-rules || true
+        fi
+        ;;
+esac

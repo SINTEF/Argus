@@ -1,0 +1,10 @@
+#pragma once
+// DJI application credentials. Copy this file to app_info.h and fill it in with
+// the details of your application from https://developer.dji.com/user/apps/#all.
+// app_info.h is not tracked in git; do not commit it. SensorPayload refuses to
+// start while these placeholder values are in place.
+#define USER_APP_NAME               "your_app_name"
+#define USER_APP_ID                 "your_app_id"
+#define USER_APP_KEY                "your_app_key"
+#define USER_APP_LICENSE            "your_app_license"
+#define USER_DEVELOPER_ACCOUNT      "your_developer_account"

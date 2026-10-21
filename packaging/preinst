@@ -1,0 +1,52 @@
+#!/bin/sh
+# Refuse to install over an install_target.sh deployment, then stop the payload.
+set -e
+
+# Filled in by build-dpkg.sh: the current layout (files.list, without docs)
+# followed by the previous layout (previous-layout).
+argus_paths='
+@ARGUS_PATHS@
+'
+# Config copies from earlier install_target.sh versions; nothing reads them.
+stale_config='/usr/local/share/sensor-fields.conf /usr/local/share/en_big_screen
+/usr/share/argus/sensor-fields.conf /usr/share/argus/en_big_screen'
+
+case "$1" in
+    install|upgrade) ;;
+    *) exit 0 ;;
+esac
+
+owned_by_us() {
+    dpkg-query -S "$1" 2>/dev/null | grep -Eq '(^|, )sensor-payload(:|,)'
+}
+
+# argus-update (USB field upgrade) holds the export lock instead and sets ARGUS_UPDATE.
+if [ -z "${ARGUS_UPDATE:-}" ] && [ -d /run/systemd/system ] &&
+    systemctl list-units --state=active --plain --no-legend 'argus-usb-sync@*.service' | grep -q .; then
+    echo 'sensor-payload: a USB log export is running; retry when it has finished.' >&2
+    exit 1
+fi
+
+unowned=
+for path in $argus_paths; do
+    if [ -e "$path" ] || [ -L "$path" ]; then
+        owned_by_us "$path" || unowned="$unowned
+  $path"
+    fi
+done
+if [ -n "$unowned" ]; then
+    echo "sensor-payload: refusing to install over files not installed by this package:$unowned" >&2
+    echo 'Remove them first, e.g. with uninstall_target.sh from the sensor-payload repository.' >&2
+    exit 1
+fi
+
+for path in $stale_config; do
+    if [ -e "$path" ]; then
+        echo "sensor-payload: note: $path is unused and can be removed."
+    fi
+done
+
+if [ -d /run/systemd/system ] && systemctl is-active --quiet sensor-payload.service; then
+    echo 'sensor-payload: stopping sensor-payload.service'
+    systemctl stop sensor-payload.service
+fi

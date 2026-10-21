@@ -1,0 +1,11 @@
+Payload-SDK/
+build-rpi-check/
+build-rpi4-aarch64/
+build-rpi4-armhf/
+build-rpi4/
+build/ 
+*~
+Logs/
+dist/
+# DJI application credentials; template in src/app_info.h.example
+src/app_info.h

@@ -1,0 +1,8 @@
+[Unit]
+Description=Install a sensor-payload package queued from USB storage
+ConditionPathExists=/var/cache/argus-update/sensor-payload.deb
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/argus-update
+TimeoutStartSec=15min
