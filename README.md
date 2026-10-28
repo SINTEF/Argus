@@ -1,9 +1,9 @@
 # Argus
+<img src="config/argus_logo.png" alt="Argus Logo" width="150" height="auto" align="left">
 
-Argus is a standalone DJI Payload SDK application for a Raspberry Pi payload
-computer and a future expansion to Manifold3. It reads CSV sensor rows
-from a serial device, merges selected DJI flight-controller state, logs
-the combined payload, and updates a small DJI Pilot widget display.
+Argus is a standalone DJI Payload SDK application that combines data streams from sensors and DJI drones and combines into a single, fused log. A selection of fields can also be forwarded to the pilot for real-time monitoring during flight. 
+It is currently designed for a Raspberry Pi payload
+computer, a future expansion to Manifold3 is planned.
 
 The application binary is `SensorPayload`, and it ships as the `sensor-payload`
 Debian package and service.
