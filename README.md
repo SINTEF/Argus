@@ -8,7 +8,8 @@ the combined payload, and updates a small DJI Pilot widget display.
 The application binary is `SensorPayload`, and it ships as the `sensor-payload`
 Debian package and service.
 
-The project is currently in a PoC stage.
+The project is currently in a PoC stage and targets M400
+explicitly. With some modifications, it adapts to an M350.
 
 ## Install The Debian Package
 
@@ -98,7 +99,9 @@ The package is written to `dist/`. Its contents and install paths are listed in
 
 - **Release:** increments the last version number and records it in
   `debian/changelog` with the branch, the commit and `-dirty` for uncommitted
-  changes to tracked files. Commit the code first, then commit
+  changes to tracked files, plus the subjects of up to five of the newest
+  commits since the last release (commits that only change
+  `debian/changelog` or `*.md` files are left out). Commit the code first, then commit
   `debian/changelog` after the build.
 - **`--devbuild`:** `<last release>+dev<UTC timestamp>`, newer than the last
   release and older than the next one, so it upgrades a target and is replaced by
@@ -329,6 +332,7 @@ For virtual serial testing, see [serial-emulator/README.md](serial-emulator/READ
 
 ## Related Docs
 
+- [DEPLOYMENT.md](DEPLOYMENT.md): M400 build and setup, moving back to the M350
 - [WIDGET.md](WIDGET.md): custom PSDK widget notes
 - [RP-WIRELESS.md](RP-WIRELESS.md): Raspberry Pi Wi-Fi and split-route setup
 - [MIGRATED_SETTINGS.md](MIGRATED_SETTINGS.md): migration notes

@@ -10,8 +10,10 @@ Usage: build-dpkg.sh [--devbuild] [--set-version X.Y.Z] [--binary PATH]
 Builds dist/sensor-payload_<version>_arm64.deb. Nothing is installed.
 The version is the top entry of debian/changelog with the last number
 incremented (0.0.1 when debian/changelog does not exist yet). The new entry
-records the branch, the commit and -dirty for changes to tracked files, and is
-written to debian/changelog once the package is built.
+records the branch, the commit and -dirty for changes to tracked files, and
+the subjects of the newest commits since the last release (leaving out commits
+that only change debian/changelog or *.md). It is written to debian/changelog
+once the package is built.
 --devbuild          Development build: <last>+dev<UTC timestamp>, newer than the
                     last release and older than the next one. debian/changelog
                     is not touched, and older development builds in dist/ are
@@ -128,6 +130,21 @@ done
 branch=$(git rev-parse --abbrev-ref HEAD)
 [[ $branch != HEAD ]] || branch='HEAD (detached)'
 commit=$(git rev-parse HEAD)
+# Notable changes since the commit of the last release, from the commit subjects.
+# Commits that only touch debian/changelog or documentation are left out.
+max_changes=5
+changes=()
+if [[ -f $changelog ]]; then
+    last_commit=$(awk '/^ -- /{exit} /^  \* Commit: /{print $3; exit}' "$changelog")
+    last_commit=${last_commit%-dirty}
+    if [[ -n $last_commit ]] && git rev-parse -q --verify "$last_commit^{commit}" >/dev/null &&
+        git merge-base --is-ancestor "$last_commit" HEAD; then
+        mapfile -t changes < <(git log --no-merges --format=%s "$last_commit..HEAD" -- . \
+            ':(exclude)debian/changelog' ':(exclude)*.md')
+    else
+        echo "Warning: commit '$last_commit' of $last is not an ancestor of HEAD; no change summary" >&2
+    fi
+fi
 # Only changes to tracked files count; untracked files are ignored.
 if [[ -n $(git status --porcelain --untracked-files=no -- . ':(exclude)debian/changelog') ]]; then
     commit+=-dirty
@@ -145,7 +162,18 @@ trap 'rm -rf -- "$stage" "$new_changelog"' EXIT
     if [[ $devbuild == yes ]]; then
         printf '  * Development build based on %s, not a release\n' "${last:-no release}"
     fi
-    printf '  * Branch: %s\n  * Commit: %s\n\n' "$branch" "$commit"
+    printf '  * Branch: %s\n  * Commit: %s\n' "$branch" "$commit"
+    if ((${#changes[@]})); then
+        printf '  * Changes since %s:\n' "$last"
+        for change in "${changes[@]:0:max_changes}"; do
+            ((${#change} <= 72)) || change="${change:0:69}..."
+            printf '    - %s\n' "$change"
+        done
+        if ((${#changes[@]} > max_changes)); then
+            printf '    - and %d more commits\n' $((${#changes[@]} - max_changes))
+        fi
+    fi
+    echo
     printf ' -- %s  %s\n' "$maintainer" "$(date -R)"
     if [[ -f $changelog ]]; then
         echo

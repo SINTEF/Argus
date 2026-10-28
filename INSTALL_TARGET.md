@@ -22,7 +22,8 @@ RP_HOST= ./scripts/build_rp.sh           # build only
 ```
 
 Each run increments the last version number, recorded in `debian/changelog` with
-the branch, commit and `-dirty` for uncommitted changes to tracked files. Commit
+the branch, commit and `-dirty` for uncommitted changes to tracked files, and a
+short list of the changes since the last release, taken from the commit subjects. Commit
 `debian/changelog` afterwards. `--devbuild` makes a development build instead
 (`<last>+dev<timestamp>`, used by `watch_builder.sh`): it upgrades the last
 release on a target, the next release replaces it, and `debian/changelog` is not

@@ -1,3 +1,20 @@
+sensor-payload (0.1.7) unstable; urgency=low
+
+  * Branch: main
+  * Commit: 2e70590bea2ca51644bcd60c96e7d26f755cf1f6
+  * Changes since 0.1.6:
+    - Update build-dpkg to include a shortlist of changes since last commit.
+    - Add a note for deployment to either M400 or M350.
+
+ -- Henrik Austad <henrik.austad@sintef.no>  Wed, 28 Oct 2026 09:01:23 +0100
+
+sensor-payload (0.1.6) unstable; urgency=low
+
+  * Branch: main
+  * Commit: 093b8132086fb65d5b0be3c34e5e7b2f16b3b4a3
+
+ -- Henrik Austad <henrik@austad.us>  Wed, 21 Oct 2026 13:49:59 +0200
+
 sensor-payload (0.1.5) unstable; urgency=low
 
   * Branch: main

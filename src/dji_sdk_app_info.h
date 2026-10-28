@@ -20,7 +20,8 @@ extern "C" {
 #define USER_BAUD_RATE              "230400"
 
 // Sensor serial device settings
-// #define SENSOR_SERIAL_DEVICE        "/dev/pts/3"
+// #define SENSOR_SERIAL_DEVICE        "/dev/pts/3"   // serial emulator
+// #define SENSOR_SERIAL_DEVICE        "/dev/ttyAMA0" // devkit v1
 #define SENSOR_SERIAL_DEVICE        "/dev/serial/by-id/usb-FTDI_TTL232R-3V3_FTENBB2G-if00-port0"
 #define SENSOR_SERIAL_BAUDRATE      B115200
 #define SENSOR_SERIAL_LOGDIR       "/var/log/argus/"
